@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour, IMoveable, ILocalInject
@@ -14,10 +12,10 @@ public class PlayerMove : MonoBehaviour, IMoveable, ILocalInject
 
     }
 
-    public void Move(Vector2 moveVector)
+    public void Move(in Vector2 moveVector, in float speed)
     {
 
-
+        _physics.AddForce((moveVector * speed * Time.fixedDeltaTime), ForceMode2D.Force);
 
     }
 
