@@ -12,11 +12,13 @@ public class PlayerController : MonoBehaviour, ILocalInject
     private IInputContainer _input;
     private IMoveable _move;
     private IJumpable _jump;
+    private ISencer _groundSencer;
 
     public void LocalInject(ComponentList list)
     {
 
         _input = list.Find<IInputContainer>();
+        _groundSencer = list.Find<ISencer>();
         _move = list.Find<IMoveable>();
         _jump = list.Find<IJumpable>();
 
@@ -39,6 +41,9 @@ public class PlayerController : MonoBehaviour, ILocalInject
 
     private void HandleJump(object obj)
     {
+
+        if (!_groundSencer.CheckSencing())
+            return;
 
         _jump.Jump(3);
 
