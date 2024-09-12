@@ -10,22 +10,26 @@ public class ItemSlot : MonoBehaviour, ICloneable
     private Image slotIcon;
     private TextMeshProUGUI slotQuantityText;
 
-    private Sprite _itemIcon;
-    private int _itemQuantity;
-
     public object Clone()
     {
         var clone = Instantiate(this);
 
-        clone.slotIcon = clone.GetComponentInChildren<Image>();
-        clone.slotQuantityText = clone.GetComponentInChildren<TextMeshProUGUI>();
+        clone.slotIcon = clone.transform.Find("Icon").GetComponent<Image>();
+        clone.slotQuantityText = clone.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
 
         return clone;
     }
 
     public void SetSlot(Item item)
     {
-        _itemIcon = item.ItemIcon;
-        _itemQuantity = item.Quantity;
+        item.OnUpdate += UpdateSlot;
+
+        slotIcon.sprite = item.ItemIcon;
+        slotQuantityText.text = $"{item.Quantity}";
+    }
+
+    public void UpdateSlot(Item item)
+    {
+        slotQuantityText.text = $"{item.Quantity}";
     }
 }

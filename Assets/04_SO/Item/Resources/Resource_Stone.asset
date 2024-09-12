@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Resource_Stone
   m_EditorClassIdentifier: 
   _itemName: Stone
-  _itemIcon: {fileID: 0}
+  _itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Quantity: 0
