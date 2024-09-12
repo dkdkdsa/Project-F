@@ -35,7 +35,7 @@ public class PlayerInput : InputContainerBase, InputMap.IPlayerActions
         var vec = context.ReadValue<Vector2>();
         vec.y = 0;
 
-        _valueContainer.Add(HASH_MOVE, vec);
+        _valueContainer[HASH_MOVE] = vec;
 
     }
 

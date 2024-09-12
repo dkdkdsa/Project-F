@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class RigidBody2DProvider : ExpansionMonoBehaviour, IPhysics
+public class RigidBody2DProvider : MonoBehaviour, IPhysics
 {
 
     private Rigidbody2D _rigid;
@@ -32,10 +32,10 @@ public class RigidBody2DProvider : ExpansionMonoBehaviour, IPhysics
 
     }
 
-    public void AddFource(Vector3 fource, ForceMode2D mode = ForceMode2D.Impulse)
+    public void AddForce(Vector3 force, ForceMode2D mode = ForceMode2D.Impulse)
     {
 
-        _rigid.AddForce(fource, mode);
+        _rigid.AddForce(force, mode);
 
     }
 
