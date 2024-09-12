@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, ILocalInject
+public class PlayerMovementController : MonoBehaviour, ILocalInject
 {
 
     private readonly int HASH_MOVE = "Move".GetHash();
@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour, ILocalInject
     private IInputContainer _input;
     private ISencer _groundSencer;
     private IStatContainer _stat;
+    private ICounter<>
     private IMoveable _move;
     private IJumpable _jump;
 
