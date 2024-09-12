@@ -21,7 +21,7 @@ public class PlayerInput : InputContainerBase, InputMap.IPlayerActions
     public void OnJump(InputAction.CallbackContext context)
     {
 
-        if (_eventContainer.ContainsKey(HASH_JUMP))
+        if (_eventContainer.ContainsKey(HASH_JUMP) && context.performed)
             _eventContainer[HASH_JUMP].Invoke(null);
 
     }
