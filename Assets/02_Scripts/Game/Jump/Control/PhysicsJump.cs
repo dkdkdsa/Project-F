@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerJump : MonoBehaviour, IJumpable, ILocalInject
+public class PhysicsJump : MonoBehaviour, IJumpable, ILocalInject
 {
 
     private IPhysics _physics;

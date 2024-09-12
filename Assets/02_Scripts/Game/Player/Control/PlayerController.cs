@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour, ILocalInject
     private void FixedUpdate()
     {
 
+        Debug.Log(_input.GetValue<Vector2>(HASH_MOVE));
         _move.Move(_input.GetValue<Vector2>(HASH_MOVE), 3);
 
     }

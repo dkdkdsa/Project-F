@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour, IMoveable, ILocalInject
+public class PhysicszjMove : MonoBehaviour, IMoveable, ILocalInject
 {
 
     private IPhysics _physics;
@@ -15,7 +15,9 @@ public class PlayerMove : MonoBehaviour, IMoveable, ILocalInject
     public void Move(in Vector2 moveVector, in float speed)
     {
 
-        _physics.AddForce((moveVector * speed * Time.fixedDeltaTime), ForceMode2D.Force);
+        Vector3 vec = moveVector * speed;
+        vec.y = _physics.GetVelocity().y;
+        _physics.SetVelocity(vec);
 
     }
 

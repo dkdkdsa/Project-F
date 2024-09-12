@@ -39,4 +39,10 @@ public class RigidBody2DProvider : MonoBehaviour, IPhysics
 
     }
 
+    public void MovePosition(Vector3 pos)
+    {
+
+        _rigid.MovePosition(pos);
+
+    }
 }
