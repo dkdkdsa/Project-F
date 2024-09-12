@@ -21,4 +21,4 @@ MonoBehaviour:
       _value: 7
   - key: JumpCount
     stat:
-      _value: 1
+      _value: 2

@@ -15,7 +15,7 @@ public interface ICounter<T> : ICounterable
 
     public CounterRole Role { get; set; }
     public T Value { get; set; }
-    public T ApplyRole(CounterRole role);
+    public T ApplyRole();
     public void SetValue(T value);
 
 }

@@ -3,10 +3,10 @@ public class IntCounter : ICounter<int>
     public CounterRole Role { get; set; }
     public int Value { get; set; }
 
-    public int ApplyRole(CounterRole role)
+    public int ApplyRole()
     {
 
-        if (role == CounterRole.Plus)
+        if (Role == CounterRole.Plus)
             return ++Value;
         else
             return --Value;
