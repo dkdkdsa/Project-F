@@ -10,15 +10,17 @@ public class PlayerController : MonoBehaviour, ILocalInject
     private readonly int HASH_JUMP = "Jump".GetHash();
 
     private IInputContainer _input;
+    private ISencer _groundSencer;
+    private IStatContainer _stat;
     private IMoveable _move;
     private IJumpable _jump;
-    private ISencer _groundSencer;
 
     public void LocalInject(ComponentList list)
     {
 
         _input = list.Find<IInputContainer>();
         _groundSencer = list.Find<ISencer>();
+        _stat = list.Find<IStatContainer>();
         _move = list.Find<IMoveable>();
         _jump = list.Find<IJumpable>();
 
@@ -34,8 +36,7 @@ public class PlayerController : MonoBehaviour, ILocalInject
     private void FixedUpdate()
     {
 
-        Debug.Log(_input.GetValue<Vector2>(HASH_MOVE));
-        _move.Move(_input.GetValue<Vector2>(HASH_MOVE), 3);
+        _move.Move(_input.GetValue<Vector2>(HASH_MOVE), _stat[HASH_MOVE].Value);
 
     }
 
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour, ILocalInject
         if (!_groundSencer.CheckSencing())
             return;
 
-        _jump.Jump(3);
+        _jump.Jump(_stat[HASH_JUMP].Value);
 
     }
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ColliderSencer : MonoBehaviour, ISencer
@@ -6,6 +7,9 @@ public class ColliderSencer : MonoBehaviour, ISencer
     [SerializeField] private Tags _checkingTags;
 
     private bool _sencing;
+
+    public event Action EnterEvent;
+    public event Action ExitEvent;
 
     public bool CheckSencing() => _sencing;
 
@@ -16,6 +20,7 @@ public class ColliderSencer : MonoBehaviour, ISencer
         if (ObjectManager.Instance.FindGameTag(id).HasTag(_checkingTags))
         {
 
+            EnterEvent?.Invoke();
             _sencing = true;
 
         }
@@ -42,6 +47,7 @@ public class ColliderSencer : MonoBehaviour, ISencer
         if (ObjectManager.Instance.FindGameTag(id).HasTag(_checkingTags))
         {
 
+            ExitEvent?.Invoke();
             _sencing = false;
 
         }
