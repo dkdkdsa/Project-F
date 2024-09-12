@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PhysicszjMove : MonoBehaviour, IMoveable, ILocalInject
+public class Physicsove : MonoBehaviour, IMoveable, ILocalInject
 {
 
     private IPhysics _physics;
