@@ -1,17 +1,28 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public static class TimerHelper
 {
 
-    private static Dictionary<Type, ICloneable>
+    private readonly static Dictionary<Type, ICloneable> _bindContainer = new()
+    {
+
+        {
+            typeof(int),
+            new FloatTimer()
+        },
+
+    };
 
     public static ITimer<T> StartTimer<T>(T startTime)
     {
 
+        var ins = _bindContainer[typeof(T)].Clone<ITimer<T>>();
 
+        ins.SetTime(startTime);
+        ins.StartTimer();
+
+        return ins;
 
     }
 

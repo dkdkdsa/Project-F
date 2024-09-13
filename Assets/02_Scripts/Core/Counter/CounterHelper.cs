@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public static class CounterHelper
 {
 
-    private static Dictionary<Type, ICloneable> _bindContainer = new()
+    private readonly static Dictionary<Type, ICloneable> _bindContainer = new()
     {
 
         //IntCounter
