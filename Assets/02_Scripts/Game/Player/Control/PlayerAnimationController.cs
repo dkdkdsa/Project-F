@@ -5,7 +5,8 @@ public class PlayerAnimationController : MonoBehaviour, ILocalInject
 
     #region AnimationHash
     private readonly int ANIME_IS_MOVE = Animator.StringToHash("IsMove");
-    private readonly int ANIME_Y = Animator.StringToHash("Y");
+    private readonly int ANIME_Y_INT = Animator.StringToHash("Y");
+    private readonly int ANIME_Y_FLOAT = Animator.StringToHash("Y_F");
     #endregion
 
     #region InputHash
@@ -31,7 +32,10 @@ public class PlayerAnimationController : MonoBehaviour, ILocalInject
     {
 
         _animator.SetBool(ANIME_IS_MOVE, GetIsMove());
-        _animator.SetInt(ANIME_Y, GetY());
+
+        int y = GetY();
+        _animator.SetInt(ANIME_Y_INT, y);
+        _animator.SetFloat(ANIME_Y_FLOAT, y);
 
     }
 
