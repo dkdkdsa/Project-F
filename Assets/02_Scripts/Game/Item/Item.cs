@@ -6,7 +6,8 @@ using UnityEngine;
 
 public abstract class Item : ScriptableObject, ICloneable
 {
-    public delegate void UpdateHandler(Item item);
+    public delegate void ValueUpdateHandler(Item item);
+    public delegate void RemoveHandler();
 
     [Header("Item Info")]
     [SerializeField] private string _itemName;
@@ -16,7 +17,8 @@ public abstract class Item : ScriptableObject, ICloneable
     public Sprite ItemIcon => _itemIcon;
     public int Quantity; // 임시
 
-    public event UpdateHandler OnUpdate;
+    public event ValueUpdateHandler OnValueUpdate;
+    public event RemoveHandler OnRemove;
 
     public object Clone()
     {
@@ -24,13 +26,21 @@ public abstract class Item : ScriptableObject, ICloneable
         return obj;
     }
 
-    public void Update()
+    public void AddItem(int amount)
     {
-        OnUpdate(this);
+        Quantity += amount;
+
+        if (Quantity <= 0)
+            RemoveItem();
+
+        OnValueUpdate?.Invoke(this);
     }
 
-    public void UnRegister()
+    public void RemoveItem()
     {
-        OnUpdate = null;
+        OnRemove?.Invoke();
+
+        OnValueUpdate = null;
+        OnRemove = null;
     }
 }

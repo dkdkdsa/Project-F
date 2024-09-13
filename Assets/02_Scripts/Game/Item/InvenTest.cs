@@ -15,8 +15,12 @@ public class InvenTest : MonoBehaviour
     private void Update() {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            newItem.Quantity++;
-            Inventory.Instance.AddItem(newItem);
+            Inventory.Instance.AddItem(newItem, 2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Inventory.Instance.AddItem(newItem, -1);
         }
     }
 }

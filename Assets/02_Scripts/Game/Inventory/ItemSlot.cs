@@ -22,14 +22,21 @@ public class ItemSlot : MonoBehaviour, ICloneable
 
     public void SetSlot(Item item)
     {
-        item.OnUpdate += UpdateSlot;
+        item.OnValueUpdate += UpdateSlot;
+        item.OnRemove += RemoveSlot;
 
-        slotIcon.sprite = item.ItemIcon;
-        slotQuantityText.text = $"{item.Quantity}";
+        UpdateSlot(item);
     }
 
     public void UpdateSlot(Item item)
     {
+        slotIcon.sprite = item.ItemIcon;
         slotQuantityText.text = $"{item.Quantity}";
+    }
+
+    public void RemoveSlot()
+    {
+        slotIcon.sprite = null;
+        slotQuantityText.text = String.Empty;
     }
 }

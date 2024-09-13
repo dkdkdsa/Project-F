@@ -5,44 +5,24 @@ using UnityEngine;
 
 public class Inventory : MonoSingleton<Inventory>
 {
-    [SerializeField] private ItemSlot _slot; // itemSlot prefab
-    [SerializeField] private int _maxSlotCount;
-    
-    private Transform _cloneTrm;
+    [SerializeField]
+    private InventoryUI _inventoryUI;
 
-    private List<ItemSlot> _slotList = new();
     private List<Item> _itemList = new();
+    public List<Item> Items => _itemList;
 
-    private void Awake() 
-    {
-        _cloneTrm = transform.GetChild(0).transform;
-
-        for (int i = 0; i < _maxSlotCount; i++)
-        {
-            var slot = _slot.Clone().Cast<ItemSlot>();
-            slot.transform.SetParent(_cloneTrm);
-            _slotList.Add(slot);
-        }  
-    }
-
-    public void AddItem(Item item)
+    public void AddItem(Item item, int amount)
     {
         if (_itemList.Contains(item))
         {
-            item.Update();
+            item.AddItem(amount);
         }
         else
         {
             _itemList.Add(item);
-            AddSlot(item);
-        }
-    }
-
-    public void AddSlot(Item item)
-    {
-        var newSlot = _slotList.First();
-        newSlot.SetSlot(item);
             
-        _slotList.Remove(newSlot);
+            _inventoryUI.AddSlot(item);
+            item.AddItem(amount);
+        }
     }
 }
