@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour, ILocalInject
@@ -16,6 +13,7 @@ public class PlayerMovementController : MonoBehaviour, ILocalInject
     private ICounter<int> _jumpCounter;
     private IMoveable _move;
     private IJumpable _jump;
+    private IFlip _flip;
 
     public void LocalInject(ComponentList list)
     {
@@ -26,6 +24,7 @@ public class PlayerMovementController : MonoBehaviour, ILocalInject
         _stat = list.Find<IStatContainer>();
         _move = list.Find<IMoveable>();
         _jump = list.Find<IJumpable>();
+        _flip = list.Find<IFlip>();
 
     }
 
@@ -52,6 +51,13 @@ public class PlayerMovementController : MonoBehaviour, ILocalInject
 
     }
 
+    private void Update()
+    {
+
+        _flip.Flip(_input.GetValue<Vector2>(HASH_MOVE));
+
+    }
+
     private void FixedUpdate()
     {
 
@@ -72,15 +78,15 @@ public class PlayerMovementController : MonoBehaviour, ILocalInject
 
     private void OnDestroy()
     {
-        
-        if(_input != null)
+
+        if (_input != null)
         {
 
             _input.UnregisterEvent(HASH_JUMP, HandleJump);
 
         }
 
-        if(_groundSencer != null)
+        if (_groundSencer != null)
         {
 
             _groundSencer.EnterEvent -= HandleEnter;
