@@ -33,9 +33,15 @@ public class PlayerMovementController : MonoBehaviour, ILocalInject
     {
 
         _input.RegisterEvent(HASH_JUMP, HandleJump);
-        _jumpCounter.SetValue((int)_stat[HASH_JUMP_COUNT].Value);
 
         _groundSencer.EnterEvent += HandleEnter;
+
+    }
+
+    private void Start()
+    {
+
+        _jumpCounter.SetValue((int)_stat[HASH_JUMP_COUNT].Value);
 
     }
 
