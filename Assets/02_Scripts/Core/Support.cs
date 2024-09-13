@@ -13,7 +13,7 @@ public static class Support
 
     }
 
-    public static T Clone<T>(this T source) where T : ICloneable
+    public static T Clone<T>(this ICloneable source) where T : ICloneable
     {
 
         return (T)source.Clone();

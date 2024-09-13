@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public static class CounterHelper
 {
 
-    private static Dictionary<Type, ICounterable> _bindContainer = new()
+    private static Dictionary<Type, ICloneable> _bindContainer = new()
     {
 
         //IntCounter
@@ -18,7 +18,7 @@ public static class CounterHelper
     public static ICounter<T> GetCounter<T>(CounterRole role, T defaultValue = default(T))
     {
 
-        var ins = _bindContainer[typeof(T)].Clone() as ICounter<T>;
+        var ins = _bindContainer[typeof(T)].Clone<ICounter<T>>();
         ins.Role = role;
         ins.Value = defaultValue;
 

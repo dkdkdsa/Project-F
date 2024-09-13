@@ -8,9 +8,7 @@ public enum CounterRole
 
 }
 
-public interface ICounterable : ICloneable { }
-
-public interface ICounter<T> : ICounterable
+public interface ICounter<T> : ICloneable
 {
 
     public CounterRole Role { get; set; }
