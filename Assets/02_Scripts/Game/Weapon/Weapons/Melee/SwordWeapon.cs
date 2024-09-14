@@ -18,9 +18,10 @@ public class SwordWeapon : MeleeWeaopnBase
 
         var rawVec = extraData.Cast<Vector2>();
         var vec = Camera.main.ScreenToWorldPoint(rawVec);
+        vec.z = 0;
 
         var dir = vec - _root.position;
-        _root.forward = dir.normalized;
+        _root.right = dir.normalized;
 
     }
 

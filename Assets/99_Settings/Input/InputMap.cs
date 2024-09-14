@@ -156,7 +156,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""33968f1d-1d0e-48e4-8511-67b0c35e190c"",
-                    ""path"": ""<VirtualMouse>/position"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""K&M"",
