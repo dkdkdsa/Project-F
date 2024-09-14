@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class SwordWeapon : MeleeWeaopnBase
 {
+
+    private IFlip _flip;
+
+    public override void LocalInject(ComponentList list)
+    {
+
+        base.LocalInject(list);
+
+        _flip = list.Find<IFlip>();
+
+    }
+
     public override void DoAttack(object extraData = null)
     {
 
@@ -22,6 +34,7 @@ public class SwordWeapon : MeleeWeaopnBase
 
         var dir = vec - _root.position;
         _root.right = dir.normalized;
+        _flip.Flip(dir.normalized);
 
     }
 
