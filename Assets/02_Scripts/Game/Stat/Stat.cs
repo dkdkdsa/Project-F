@@ -53,6 +53,13 @@ public class Stat : ICloneable
 
     }
 
+    public void SetValue(float value)
+    {
+
+        _value = value;
+
+    }
+
     public object Clone()
     {
 

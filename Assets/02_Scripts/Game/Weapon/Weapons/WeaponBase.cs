@@ -8,11 +8,19 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
     protected readonly int HASH_COOL_TIME = "CoolTime".GetHash();
     #endregion
 
-    private IStatContainer _stat;
-
+    protected IStatContainer _stat;
     protected bool _isCoolTime;
 
-    public float CoolTime => _stat[HASH_COOL_TIME].Value;
+    public float CoolTime
+    {
+
+        get => _stat[HASH_COOL_TIME].Value;
+        set
+        {
+            _stat[HASH_COOL_TIME].SetValue(value);
+        }
+
+    }
 
     public event Action<object> AttackEvent;
     public event Action<object> RotateEvent;
