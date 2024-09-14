@@ -33,7 +33,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
 
     }
 
-    public void Attack()
+    public void Attack(object extraData = null)
     {
 
         if (_isCoolTime)
@@ -42,7 +42,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
         _isCoolTime = true;
         TimerHelper.StartTimer(CoolTime).OnEndEvent += HandleCoolDownEnd;
 
-        DoAttack();
+        DoAttack(extraData);
 
     }
 
@@ -53,10 +53,10 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
 
     }
 
-    public abstract void DoAttack();
-    public abstract void Rotate();
+    public abstract void DoAttack(object extraData = null);
+    public abstract void Rotate(object extraData = null);
 
-    public virtual void Release()
+    public virtual void Release(object extraData)
     {
 
         Destroy(gameObject);
