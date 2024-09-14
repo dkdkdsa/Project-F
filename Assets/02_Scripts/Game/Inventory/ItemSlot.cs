@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlot : MonoBehaviour, ICloneable
+public class ItemSlot : MonoBehaviour, ICloneable, IPointerClickHandler
 {
     private Image slotIcon;
     private TextMeshProUGUI slotQuantityText;
@@ -38,5 +39,10 @@ public class ItemSlot : MonoBehaviour, ICloneable
     {
         slotIcon.sprite = null;
         slotQuantityText.text = String.Empty;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("클릭됨");
     }
 }

@@ -26,7 +26,7 @@ public abstract class Item : ScriptableObject, ICloneable
         return obj;
     }
 
-    public void AddItem(int amount)
+    public void AddItemAmount(int amount)
     {
         Quantity += amount;
 

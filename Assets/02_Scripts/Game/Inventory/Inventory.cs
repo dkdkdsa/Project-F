@@ -15,14 +15,14 @@ public class Inventory : MonoSingleton<Inventory>
     {
         if (_itemList.Contains(item))
         {
-            item.AddItem(amount);
+            item.AddItemAmount(amount);
         }
         else
         {
             _itemList.Add(item);
             
             _inventoryUI.AddSlot(item);
-            item.AddItem(amount);
+            item.AddItemAmount(amount);
         }
     }
 }

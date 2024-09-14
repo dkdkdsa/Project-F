@@ -14,11 +14,16 @@ public class InventoryUI : MonoBehaviour
 
     private List<ItemSlot> _slotList = new();
 
-    public ItemSlot Slot => _slot;
-
-     private void Awake() 
+    private void Awake() 
     {
         _cloneTrm = transform.GetChild(0).transform;
+
+        Transform[] childs = Support.GetChilds(_cloneTrm);
+
+        for (int i = 0; i < childs.Length; i++)
+        {
+            Destroy(childs[i].gameObject);
+        }
 
         for (int i = 0; i < _maxSlotCount; i++)
         {
@@ -41,6 +46,8 @@ public class InventoryUI : MonoBehaviour
     // 에디터에서만 실행되는 슬롯 생성 함수
     public void CreateSlots()
     {
+        _cloneTrm = transform.GetChild(0).transform;
+
         if (_slotList.Count > 0)
         {
             foreach (var slot in _slotList)
@@ -63,12 +70,12 @@ public class InventoryUI : MonoBehaviour
     // 슬롯 리스트를 초기화하는 함수
     public void ClearSlots()
     {
-        foreach (var slot in _slotList)
+        _cloneTrm = transform.GetChild(0).transform;
+
+        Transform[] childs = Support.GetChilds(_cloneTrm);
+        for (int i = 0; i < childs.Length; i++)
         {
-            if (slot != null)
-            {
-                DestroyImmediate(slot.gameObject); // 에디터에서 즉시 삭제
-            }
+            DestroyImmediate(childs[i].gameObject);
         }
         _slotList.Clear();
         _maxSlotCount = 0;
