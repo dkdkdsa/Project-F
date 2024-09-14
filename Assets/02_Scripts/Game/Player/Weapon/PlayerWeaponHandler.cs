@@ -36,6 +36,13 @@ public class PlayerWeaponHandler : MonoBehaviour, IWeaponHandler, ILocalInject
 
     }
 
+    private void Update()
+    {
+
+        Rotate();
+
+    }
+
     public void Attack(object extraData = null)
     {
 
@@ -53,6 +60,7 @@ public class PlayerWeaponHandler : MonoBehaviour, IWeaponHandler, ILocalInject
             Release();
 
         _currentWeapon = weapon;
+        weapon.SetUp(_weaponRoot);
 
     }
 
@@ -66,6 +74,9 @@ public class PlayerWeaponHandler : MonoBehaviour, IWeaponHandler, ILocalInject
 
     public void Rotate(object extraData = null)
     {
+
+        if (_currentWeapon == null)
+            return;
 
         _currentWeapon.Rotate(_input.GetValue<Vector2>(HASH_MOUSE));
 
