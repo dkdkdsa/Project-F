@@ -6,8 +6,11 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
 
     #region Hash
     protected readonly int HASH_COOL_TIME = "CoolTime".GetHash();
+    protected readonly int HASH_PIVOT_X = "PivotX".GetHash();
+    protected readonly int HASH_PIVOT_Y = "PivotY".GetHash();
     #endregion
 
+    protected Transform _root => transform.parent;
     protected IStatContainer _stat;
     protected bool _isCoolTime;
 
@@ -18,6 +21,20 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
         set
         {
             _stat[HASH_COOL_TIME].SetValue(value);
+        }
+
+    }
+
+    public Vector2 Pivot
+    {
+
+        get => new Vector2(_stat[HASH_PIVOT_X].Value, _stat[HASH_PIVOT_Y].Value);
+        set
+        {
+
+            _stat[HASH_PIVOT_X].SetValue(value.x);
+            _stat[HASH_PIVOT_Y].SetValue(value.y);
+
         }
 
     }
@@ -63,5 +80,15 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
 
     }
 
+    public virtual void SetUp(object extraData = null)
+    {
 
+        if (extraData == null)
+            return;
+
+        var t = extraData.Cast<Transform>();
+        transform.SetParent(t);
+        transform.localPosition = Pivot;
+
+    }
 }

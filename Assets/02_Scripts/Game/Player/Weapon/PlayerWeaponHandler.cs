@@ -8,6 +8,8 @@ public class PlayerWeaponHandler : MonoBehaviour, IWeaponHandler, ILocalInject
     private readonly int HASH_MOUSE = "Mouse".GetHash();
     #endregion
 
+    [SerializeField] private Transform _weaponRoot;
+
     private IInputContainer _input;
     private IWeapon _currentWeapon;
 
