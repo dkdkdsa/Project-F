@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 257eb121d7200554d9320c76d9080b32, type: 3}
-  m_Name: WeaponStatBase
+  m_Name: MeleeStatBase
   m_EditorClassIdentifier: 
   <Stats>k__BackingField:
   - key: Damage
     stat:
-      _value: 0
+      _value: 3
   - key: CoolTime
     stat:
       _value: 0
@@ -25,3 +25,9 @@ MonoBehaviour:
   - key: PivotY
     stat:
       _value: 0
+  - key: CastingSizeX
+    stat:
+      _value: 3
+  - key: CastingSizeY
+    stat:
+      _value: 3

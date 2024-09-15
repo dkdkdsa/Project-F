@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SwordWeapon : MeleeWeaopnBase
 {
 
     [SerializeField] private Transform _visualPivot;
+
     private IFlip _flip;
 
     public override void LocalInject(ComponentList list)
@@ -22,10 +21,37 @@ public class SwordWeapon : MeleeWeaopnBase
 
         var t = extraData.Cast<InputType>();
 
-        if(t == InputType.Down)
+        if (t == InputType.Down)
         {
 
-            _visualPivot.localScale = new Vector3(1, _visualPivot.localScale.y * -1, 1);
+            _visualPivot.localScale = new Vector3(1, _visualPivot.localScale.y * -1, 1); //나중에 옮기기
+            Casting();
+
+
+        }
+
+    }
+
+    private void Casting()
+    {
+
+        AttackData data = new AttackData() { damage = Damage };
+
+        var castings = Physics2D.OverlapBoxAll(transform.position, CastingSize, _root.eulerAngles.z);
+
+        if (castings.Length <= 0)
+            return;
+
+        SubSkills.Apply(ref data);
+
+        foreach (var obj in castings)
+        {
+
+            var tag = ObjectManager.Instance.FindGameTag(obj.GetGameObjectId());
+
+            if (tag != null && tag.HasTag(Tags.Hit))
+                if (tag.TryGetComponent<IHitable>(out var compo))
+                    compo.Hit(data);
 
         }
 

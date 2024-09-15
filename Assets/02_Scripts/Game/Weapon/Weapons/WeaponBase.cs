@@ -1,6 +1,13 @@
 using System;
 using UnityEngine;
 
+public struct AttackData
+{
+
+    public float damage;
+
+}
+
 public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
 {
 
@@ -11,6 +18,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
     protected readonly int HASH_DAMAGE = "Damage".GetHash();
     #endregion
 
+    public SubSkillContainer SubSkills { get; set; } = new();
     protected Transform _root => transform.parent;
     protected IStatContainer _stat;
     protected bool _isCoolTime;
@@ -51,9 +59,15 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
 
     }
 
+   
+
     public event Action<object> AttackEvent;
     public event Action<object> RotateEvent;
     public event Action<object> ReleaseEvent;
+
+    protected void InvokeAttack(object data) => AttackEvent?.Invoke(data);
+    protected void InvokeRotate(object data) => RotateEvent?.Invoke(data);
+    protected void InvokeRelease(object data) => ReleaseEvent?.Invoke(data);
 
     public virtual void LocalInject(ComponentList list)
     {
@@ -88,6 +102,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
     public virtual void Release(object extraData)
     {
 
+        InvokeRelease(extraData);
         Destroy(gameObject);
 
     }

@@ -2,7 +2,7 @@ using System;
 
 public interface IWeapon
 {
-
+    public SubSkillContainer SubSkills { get; set; }
     public event Action<object> AttackEvent;
     public event Action<object> RotateEvent;
     public event Action<object> ReleaseEvent;
