@@ -37,7 +37,9 @@ public class SwordWeapon : MeleeWeaopnBase
 
         AttackData data = new AttackData() { damage = Damage };
 
-        var castings = Physics2D.OverlapBoxAll(transform.position, CastingSize, _root.eulerAngles.z);
+        var castings = Physics2D.OverlapBoxAll(
+            transform.position + (transform.right * CastingSize.x), 
+            CastingSize, _root.eulerAngles.z);
 
         if (castings.Length <= 0)
             return;
