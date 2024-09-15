@@ -8,6 +8,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
     protected readonly int HASH_COOL_TIME = "CoolTime".GetHash();
     protected readonly int HASH_PIVOT_X = "PivotX".GetHash();
     protected readonly int HASH_PIVOT_Y = "PivotY".GetHash();
+    protected readonly int HASH_DAMAGE = "Damage".GetHash();
     #endregion
 
     protected Transform _root => transform.parent;
@@ -21,6 +22,17 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, ILocalInject
         set
         {
             _stat[HASH_COOL_TIME].SetValue(value);
+        }
+
+    }
+
+    public float Damage
+    {
+
+        get => _stat[HASH_DAMAGE].Value;
+        set
+        {
+            _stat[HASH_DAMAGE].SetValue(value);
         }
 
     }
