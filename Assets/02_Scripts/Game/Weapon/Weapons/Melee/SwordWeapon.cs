@@ -5,6 +5,7 @@ using UnityEngine;
 public class SwordWeapon : MeleeWeaopnBase
 {
 
+    [SerializeField] private Transform _visualPivot;
     private IFlip _flip;
 
     public override void LocalInject(ComponentList list)
@@ -19,6 +20,14 @@ public class SwordWeapon : MeleeWeaopnBase
     public override void DoAttack(object extraData = null)
     {
 
+        var t = extraData.Cast<InputType>();
+
+        if(t == InputType.Down)
+        {
+
+            _visualPivot.localScale = new Vector3(1, _visualPivot.localScale.y * -1, 1);
+
+        }
 
     }
 

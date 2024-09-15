@@ -145,7 +145,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""abab1109-9c0c-4a7a-841f-35031ed34001"",
-                    ""path"": ""<VirtualMouse>/leftButton"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""K&M"",

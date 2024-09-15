@@ -46,7 +46,7 @@ public class PlayerWeaponHandler : MonoBehaviour, IWeaponHandler, ILocalInject
     public void Attack(object extraData = null)
     {
 
-        if (extraData == null)
+        if (extraData == null || _currentWeapon == null)
             return;
 
         _currentWeapon.Attack(extraData);

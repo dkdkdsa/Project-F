@@ -8,7 +8,7 @@ public static class TimerHelper
     {
 
         {
-            typeof(int),
+            typeof(float),
             new FloatTimer()
         },
 
