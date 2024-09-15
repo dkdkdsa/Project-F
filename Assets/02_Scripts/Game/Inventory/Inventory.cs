@@ -1,30 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoSingleton<Inventory>
 {
-    [SerializeField] private ItemSlot _slot;
-    [SerializeField] private int _slotCount;
+    [SerializeField]
+    private InventoryUI _inventoryUI;
 
-    private Transform _cloneTrm;
+    private List<Item> _itemList = new();
+    public List<Item> Items => _itemList;
 
-    private List<ItemSlot> _itemSlots = new List<ItemSlot>();
-
-    private void Awake() 
+    public void AddItem(Item item, int amount)
     {
-        _cloneTrm = transform.GetChild(0).transform;
-
-        for (int i = 0; i < _slotCount; i++)
+        if (_itemList.Contains(item))
         {
-            var slot = _slot.Clone().Cast<ItemSlot>();
-            slot.transform.SetParent(_cloneTrm);
-            _itemSlots.Add(slot);
-        }  
-    }
-
-    public void SetInventory()
-    {
-
+            item.AddItemAmount(amount);
+        }
+        else
+        {
+            _itemList.Add(item);
+            
+            _inventoryUI.AddSlot(item);
+            item.AddItemAmount(amount);
+        }
     }
 }

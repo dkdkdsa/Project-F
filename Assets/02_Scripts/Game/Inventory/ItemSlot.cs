@@ -3,29 +3,46 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlot : MonoBehaviour, ICloneable
+public class ItemSlot : MonoBehaviour, ICloneable, IPointerClickHandler
 {
     private Image slotIcon;
     private TextMeshProUGUI slotQuantityText;
-
-    private Sprite _itemIcon;
-    private int _itemQuantity;
 
     public object Clone()
     {
         var clone = Instantiate(this);
 
-        clone.slotIcon = clone.GetComponentInChildren<Image>();
-        clone.slotQuantityText = clone.GetComponentInChildren<TextMeshProUGUI>();
+        clone.slotIcon = clone.transform.Find("Icon").GetComponent<Image>();
+        clone.slotQuantityText = clone.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
 
         return clone;
     }
 
     public void SetSlot(Item item)
     {
-        _itemIcon = item.ItemIcon;
-        _itemQuantity = item.Quantity;
+        item.OnValueUpdate += UpdateSlot;
+        item.OnRemove += RemoveSlot;
+
+        UpdateSlot(item);
+    }
+
+    public void UpdateSlot(Item item)
+    {
+        slotIcon.sprite = item.ItemIcon;
+        slotQuantityText.text = $"{item.Quantity}";
+    }
+
+    public void RemoveSlot()
+    {
+        slotIcon.sprite = null;
+        slotQuantityText.text = String.Empty;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("클릭됨");
     }
 }
