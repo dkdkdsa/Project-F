@@ -4,6 +4,7 @@ public class PlayerMovementController : MonoBehaviour, ILocalInject
 {
 
     private readonly int HASH_JUMP_COUNT = "JumpCount".GetHash();
+    private readonly int HASH_MOUSE = "Mouse".GetHash();
     private readonly int HASH_MOVE = "Move".GetHash();
     private readonly int HASH_JUMP = "Jump".GetHash();
 
@@ -54,7 +55,17 @@ public class PlayerMovementController : MonoBehaviour, ILocalInject
     private void Update()
     {
 
-        _flip.Flip(_input.GetValue<Vector2>(HASH_MOVE));
+        Flip();
+
+    }
+
+    private void Flip()
+    {
+
+        var rawVec = Camera.main.ScreenToWorldPoint(_input.GetValue<Vector2>(HASH_MOUSE));
+        var dir = rawVec - transform.position;
+
+        _flip.Flip(dir.normalized);
 
     }
 
