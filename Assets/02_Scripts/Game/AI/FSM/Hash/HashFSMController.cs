@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +18,6 @@ namespace FSM.Hash
         {
 
 
-
         }
 
         public void ChangeState(int state)
@@ -38,7 +36,7 @@ namespace FSM.Hash
 
             _stateChangeFlag = false;
 
-            foreach(var trans in _transitionContainer[_currentState]) 
+            foreach (var trans in _transitionContainer[_currentState])
             {
 
                 trans.Check();
@@ -59,13 +57,21 @@ namespace FSM.Hash
 
         }
 
-        public void OnDestroy() 
-        { 
-        
-            foreach(var item in _stateContainer.Values)
+        public void OnDestroy()
+        {
+
+            foreach (var item in _stateContainer.Values)
                 item.Destroy();
-        
+
         }
+
+    }
+
+    public interface IHashControllerUse
+    {
+
+        public IFSMController<int> Controller { get; }
+        public void SetController(IFSMController<int> controller);
 
     }
 
