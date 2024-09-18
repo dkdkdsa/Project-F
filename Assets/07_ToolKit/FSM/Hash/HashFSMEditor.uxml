@@ -4,7 +4,11 @@
         <ui:VisualElement name="StateStatus" style="flex-grow: 1; margin-top: 45px; display: flex;">
             <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CurrentStateText" style="-unity-text-align: upper-center; font-size: 79px; color: rgb(255, 255, 255);" />
             <ui:DropdownField label="ClassName" name="BindStateField" style="margin-left: 89px; margin-right: 51px; -unity-text-align: upper-right; color: rgb(255, 255, 255); font-size: 23px;" />
-            <ui:VisualElement name="Transitions" style="flex-grow: 1;" />
+            <ui:VisualElement name="Transitions" style="flex-grow: 1; align-items: stretch; justify-content: space-around; flex-direction: row; margin-bottom: 757px; padding-top: 15px;">
+                <ui:DropdownField label="Transition" name="TransitionField" style="justify-content: space-between; position: relative; flex-grow: 1; -unity-text-align: middle-right; color: rgb(255, 255, 255); font-size: 26px;" />
+                <ui:DropdownField label="State" name="StateField" style="justify-content: space-around; flex-grow: 1; margin-right: 72px; -unity-text-align: middle-center; font-size: 26px; color: rgb(255, 255, 255);" />
+                <ui:Button text="ADD" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font-style: bold;" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
