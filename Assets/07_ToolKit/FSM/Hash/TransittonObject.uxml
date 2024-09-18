@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="TransittonObject" style="flex-grow: 0.05; flex-direction: row; justify-content: space-around;">
+        <ui:Label tabindex="-1" text="TransitionName" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TransitionName" style="-unity-text-align: middle-center; font-size: 26px; color: rgb(255, 255, 255);" />
+        <ui:Label tabindex="-1" text="TargetState" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="-unity-text-align: middle-center; font-size: 26px; color: rgb(255, 255, 255);" />
+        <ui:Button text="X" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RemoveBtn" style="font-size: 36px;" />
+    </ui:VisualElement>
+</ui:UXML>
