@@ -1,7 +1,9 @@
+using FSM.Hash;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,12 +12,21 @@ public class HashFSMEditor : EditorWindow
 
 
     private const string UXML_PATH_ROOT = "Assets/07_ToolKit/FSM/Hash/";
+    public HashFSMRouteMap target { get; private set; }
 
-    [MenuItem("Tool/FSM")]
-    public static void OpenEditor()
+    [OnOpenAsset]
+    public static bool OnOpenAsset(int instanceID, int line)
     {
 
-        CreateWindow<HashFSMEditor>();
+        if(Selection.activeObject is HashFSMRouteMap obj)
+        {
+
+            CreateWindow<HashFSMEditor>(obj.name).target = obj;
+            return true;
+
+        }
+
+        return false;
 
     }
 
@@ -54,8 +65,8 @@ public class HashFSMEditor : EditorWindow
         /// </summary>
         private DropdownField _bindStateField;
 
-        public event Action<string> OnCreateState;
         public event Action<string> OnSelectStateChanged;
+        public event Action<string> OnCreateState;
 
         public MainWindowElement(VisualElement root)
         {
