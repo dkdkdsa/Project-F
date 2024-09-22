@@ -16,14 +16,33 @@ public class HashFSMEditor : EditorWindow
     private MainWindowElement _window;
     private HashFSMRouteMap _target;
 
-
-    private void OnEnable()
+    private void SetUp()
     {
 
         _window = new MainWindowElement(rootVisualElement);
 
+        //SetUp States
+        {
+
+            foreach (var item in _target.states)
+                _window.AddState(item);
+
+        }
+
+
+        _window.OnStateCreated += HandleStateCreated;
+
     }
 
+    private void HandleStateCreated(string stateName)
+    {
+
+        _target.states.Add(stateName);
+        SetDirt(_target);
+
+    }
+
+    private void SetDirt(ScriptableObject obj) => EditorUtility.SetDirty(obj);
 
     [OnOpenAsset]
     public static bool OnOpenAsset(int instanceID, int line)
@@ -32,7 +51,11 @@ public class HashFSMEditor : EditorWindow
         if(Selection.activeObject is HashFSMRouteMap obj)
         {
 
-            CreateWindow<HashFSMEditor>(obj.name)._target = obj;
+            var window = CreateWindow<HashFSMEditor>(obj.name);
+            window._target = obj;
+
+            window.SetUp();
+
             return true;
 
         }
@@ -71,7 +94,7 @@ public class HashFSMEditor : EditorWindow
 
         public event Action<string> OnSelectStateChanged;
         public event Action<string> OnClassSelectChanged;
-        public event Action<string> OnCreateState;
+        public event Action<string> OnStateCreated;
 
         public MainWindowElement(VisualElement root)
         {
@@ -122,7 +145,7 @@ public class HashFSMEditor : EditorWindow
 
             _statesField.choices.Add(name);
 
-            OnCreateState?.Invoke(name);
+            OnStateCreated?.Invoke(name);
 
         }
 
@@ -134,6 +157,13 @@ public class HashFSMEditor : EditorWindow
         {
 
             _bindStateField.choices.Add(name);
+
+        }
+
+        public void AddState(string name)
+        {
+
+            _statesField.choices.Add(name);
 
         }
 
