@@ -12,7 +12,18 @@ public class HashFSMEditor : EditorWindow
 
 
     private const string UXML_PATH_ROOT = "Assets/07_ToolKit/FSM/Hash/";
-    public HashFSMRouteMap target { get; private set; }
+
+    private MainWindowElement _window;
+    private HashFSMRouteMap _target;
+
+
+    private void OnEnable()
+    {
+
+        _window = new MainWindowElement(rootVisualElement);
+
+    }
+
 
     [OnOpenAsset]
     public static bool OnOpenAsset(int instanceID, int line)
@@ -21,19 +32,12 @@ public class HashFSMEditor : EditorWindow
         if(Selection.activeObject is HashFSMRouteMap obj)
         {
 
-            CreateWindow<HashFSMEditor>(obj.name).target = obj;
+            CreateWindow<HashFSMEditor>(obj.name)._target = obj;
             return true;
 
         }
 
         return false;
-
-    }
-
-    private void OnEnable()
-    {
-
-        new MainWindowElement(rootVisualElement);
 
     }
 
@@ -66,6 +70,7 @@ public class HashFSMEditor : EditorWindow
         private DropdownField _bindStateField;
 
         public event Action<string> OnSelectStateChanged;
+        public event Action<string> OnClassSelectChanged;
         public event Action<string> OnCreateState;
 
         public MainWindowElement(VisualElement root)
@@ -91,6 +96,14 @@ public class HashFSMEditor : EditorWindow
 
             _createStateButton.clicked += HandleCreateState;
             _statesField.RegisterValueChangedCallback(HandleSelectStateChange);
+            _bindStateField.RegisterValueChangedCallback(HandleSelectClassChange);
+
+        }
+
+        private void HandleSelectClassChange(ChangeEvent<string> evt)
+        {
+
+            OnClassSelectChanged?.Invoke(evt.newValue);
 
         }
 
