@@ -5,20 +5,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
+using System.Reflection;
 
 [CustomPropertyDrawer(typeof(HashFSMRouteMap))]
 public class HashMapDrawer : PropertyDrawer
 {
 
-    private int _stateSelect;
     private string _createStateName;
     private float _totalHeight;
+    private int _stateSelect;
+    private int _stateObjectSelect;
+    private bool _bindStateFoldOut;
+    private List<string> _displays;
+    private TypeCache.TypeCollection _findTypes;
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
 
         _totalHeight = 0;
+
 
         EditorGUI.BeginProperty(position, label, property);
 
@@ -34,24 +39,147 @@ public class HashMapDrawer : PropertyDrawer
     private void BindStateField(Rect position, SerializedProperty property)
     {
 
+
+        if (string.IsNullOrEmpty(GetCurrentState(property)))
+            return;
+
         _totalHeight += 20;
-        AddLabel(position, "BindState");
+        _bindStateFoldOut = EditorGUI.Foldout(GetPositon(position, new Vector2(0, _totalHeight)), _bindStateFoldOut, "StateObject");
+        _totalHeight += 20;
+
+        if (!_bindStateFoldOut)
+            return;
+
+        position.x += 20;
+        position.width -= 20;
 
         //BindingDropDown
         {
 
-            var types = TypeCache.GetTypesDerivedFrom<HashStateBase>();
-            List<string> displays = new List<string>();
+            _findTypes = TypeCache.GetTypesDerivedFrom<HashStateBase>();
+            _displays = new List<string>() { "None" };
 
-            foreach(var item in types)
+            foreach(var item in _findTypes)
             {
 
-                //여기에 조건 추가
+                if (item.IsAbstract)
+                    continue;
 
+                _displays.Add(item.Name);
+
+            }
+
+            var obj = GetStatesObjectsField(property).GetArrayElementAtIndex(_stateSelect).objectReferenceValue;
+
+            _stateObjectSelect = obj == null ? 0 : _displays.FindIndex(x => x == obj.GetType().Name);
+
+            _stateObjectSelect =
+                EditorGUI.Popup(GetPositon(position, new Vector2(0, _totalHeight)), 
+                _stateObjectSelect, _displays.ToArray());
+
+            _totalHeight += 20;
+
+        }
+
+        //CheckCreate
+        {
+
+            var field = GetStatesObjectsField(property);
+
+            if (_displays[_stateObjectSelect] != "None" 
+                && 
+                field.GetArrayElementAtIndex(_stateSelect).objectReferenceValue == null)
+            {
+
+                var t = _findTypes.First(x => x.Name == _displays[_stateObjectSelect]);
+                var ins = (property.serializedObject.targetObject as MonoBehaviour).gameObject.AddComponent(t);
+
+                ins.hideFlags = HideFlags.HideInInspector;
+
+                field.GetArrayElementAtIndex(_stateSelect).objectReferenceValue = ins;
+                field.GetArrayElementAtIndex(_stateSelect).serializedObject.ApplyModifiedProperties();
 
             }
 
         }
+
+        //CheckDestroy
+        {
+
+            var field = GetStatesObjectsField(property);
+            var obj = field.GetArrayElementAtIndex(_stateSelect).objectReferenceValue;
+
+            if (obj == null)
+                return;
+
+            if (_displays[_stateObjectSelect] != obj.GetType().Name)
+            {
+
+                UnityEngine.Object.DestroyImmediate(obj);
+
+            }
+
+        }
+
+        //DrawBindingObject
+        {
+
+            var field = GetStatesObjectsField(property);
+
+            if (_displays[_stateObjectSelect] != "None"
+                &&
+                field.GetArrayElementAtIndex(_stateSelect).objectReferenceValue != null)
+            {
+
+                var obj = new SerializedObject(field.GetArrayElementAtIndex(_stateSelect).objectReferenceValue);
+
+                EditorGUI.BeginChangeCheck();
+                obj.UpdateIfRequiredOrScript();
+                SerializedProperty iterator = obj.GetIterator();
+                bool enterChildren = true;
+                while (iterator.NextVisible(enterChildren))
+                {
+                    using (new EditorGUI.DisabledScope("m_Script" == iterator.propertyPath))
+                    {
+                        EditorGUI.PropertyField(GetPositon(position, new Vector2(0, _totalHeight)), iterator, true);
+                        _totalHeight += 20;
+                    }
+
+                    enterChildren = false;
+                }
+
+                obj.ApplyModifiedProperties();
+                EditorGUI.EndChangeCheck();
+
+            }
+
+        }
+
+        //DrawTransitonData
+        {
+
+            var obj = GetStatesObjectsField(property).GetArrayElementAtIndex(_stateSelect).objectReferenceValue as HashStateBase;
+
+            if(obj == null) 
+                return;
+
+            var v = HashTransitionDrawBinding.GetBindDraw(obj.GetType());
+            v(position, property, _stateSelect, ref _totalHeight);
+
+        }
+
+
+    }
+
+    private string GetCurrentState(SerializedProperty property)
+    {
+
+        var field = GetStatesField(property);
+
+        return field.arraySize > 0 ? 
+            field.GetArrayElementAtIndex(_stateSelect).stringValue
+            :
+            null;
 
     }
 
@@ -74,7 +202,10 @@ public class HashMapDrawer : PropertyDrawer
         {
 
             var field = GetStatesField(property);
+            var objects = GetStatesObjectsField(property);
+
             field.DeleteArrayElementAtIndex(_stateSelect);
+            objects.DeleteArrayElementAtIndex(_stateSelect);
 
             _stateSelect = 0;
 
@@ -145,8 +276,14 @@ public class HashMapDrawer : PropertyDrawer
                     return;
 
                 var states = GetStatesField(property);
+                var objects = GetStatesObjectsField(property);
+
                 int idx = states.arraySize;
                 states.InsertArrayElementAtIndex(idx);
+
+                objects.InsertArrayElementAtIndex(idx);
+                objects.GetArrayElementAtIndex(idx).objectReferenceValue = null;
+
                 var elem = states.GetArrayElementAtIndex(idx);
                 elem.stringValue = _createStateName;
 
@@ -161,6 +298,7 @@ public class HashMapDrawer : PropertyDrawer
     }
 
     private SerializedProperty GetStatesField(SerializedProperty property) => property.FindPropertyRelative("states");
+    private SerializedProperty GetStatesObjectsField(SerializedProperty property) => property.FindPropertyRelative("stateObjects");
 
     private Rect GetPositon(Rect position, Vector2 povit)
     {

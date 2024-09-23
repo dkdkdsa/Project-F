@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace FSM.Hash
 {
-    public abstract class HashStateBase : ScriptableObject, IState, ICloneable
+
+    public abstract class HashStateBase : MonoBehaviour, IState
     {
 
         protected Transform _transform { get; private set; }
@@ -29,10 +30,6 @@ namespace FSM.Hash
         }
         public virtual void Destroy()
         {
-        }
-        public object Clone()
-        {
-            return Instantiate(this);
         }
     }
 }

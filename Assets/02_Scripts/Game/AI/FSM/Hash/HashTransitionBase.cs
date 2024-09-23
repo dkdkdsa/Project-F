@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class HashTransitionBase : ScriptableObject, ITransition, ICloneable
+public abstract class HashTransitionBase : MonoBehaviour, ITransition, ICloneable
 {
 
 

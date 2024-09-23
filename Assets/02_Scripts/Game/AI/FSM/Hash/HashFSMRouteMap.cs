@@ -18,6 +18,8 @@ namespace FSM.Hash
         /// </summary>
         public List<HashStateBase> stateObjects;
 
+        public List<List<HashTransitionBase>> transitions;
+
     }
 
 }
