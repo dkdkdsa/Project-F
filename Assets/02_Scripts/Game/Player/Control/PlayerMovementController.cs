@@ -81,7 +81,7 @@ public class PlayerMovementController : MonoBehaviour, ILocalInject
 
         if (!_groundSencer.CheckSencing() && _jumpCounter.Value <= 0)
             return;
-        _jumpCounter.ApplyRole();
+        _jumpCounter.ApplyRule();
 
         _jump.Jump(_stat[HASH_JUMP].Value);
 

@@ -4,8 +4,8 @@ using UnityEngine;
 namespace FSM.Hash
 {
 
-    [CreateAssetMenu(menuName = "SO/AI/FSM/Hash")]
-    public class HashFSMRouteMap : ScriptableObject
+    [System.Serializable]
+    public class HashFSMRouteMap
     {
 
         /// <summary>

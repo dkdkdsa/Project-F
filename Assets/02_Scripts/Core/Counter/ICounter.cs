@@ -13,7 +13,7 @@ public interface ICounter<T> : ICloneable
 
     public CounterRole Role { get; set; }
     public T Value { get; set; }
-    public T ApplyRole();
+    public T ApplyRule();
     public void SetValue(T value);
 
 }
