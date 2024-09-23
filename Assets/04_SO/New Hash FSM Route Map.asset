@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fe6668d422e4064a9f4e2660879c6f9, type: 3}
   m_Name: New Hash FSM Route Map
   m_EditorClassIdentifier: 
-  states: []
+  states:
+  - 123
   stateObjects: []
